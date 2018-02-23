@@ -14,12 +14,17 @@ namespace AaronCottrillSpyStore.Service
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
+            IWebHost host = new WebHostBuilder()
+                 .UseKestrel()
+                  .UseUrls("http://*:40001/")
+                 .UseContentRoot(Directory.GetCurrentDirectory())
+                 .UseIISIntegration()
+                 .UseStartup<Startup>()
+                 .UseApplicationInsights()
+                 .Build();
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            host.Run();
+        }
     }
+       
 }
